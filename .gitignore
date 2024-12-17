@@ -20,18 +20,6 @@ qtcreator-*
 *.user
 *~
 
-# Emacs
-.#*
-
-# Catkin/ROS1-specific (not needed for ROS2)
-msg_gen/
-srv_gen/
-msg/*Action*.msg
-msg/*Feedback.msg
-msg/*Goal.msg
-msg/*Result.msg
-srv/_*.py
-
 # Temporary files
 *.tmp
 *.swp
@@ -41,7 +29,3 @@ srv/_*.py
 # ROS2-specific
 install_isolated/
 build_isolated/
-
-# Dynamic reconfigure (ROS1-specific, remove if only ROS2)
-*.cfgc
-/cfg/cpp/
