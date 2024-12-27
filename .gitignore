@@ -2,4 +2,30 @@
 build/
 install/
 log/
+#log_*/
 
+# Python-related
+#*.pyc
+#*.pyo
+#*.pyd
+#*.pdb
+#*.egg-info/
+#__pycache__/
+
+# Editor-specific files
+#.project
+#.cproject
+#CMakeLists.txt.user
+#qtcreator-*
+#*.user
+#*~
+
+# Temporary files
+#*.tmp
+#*.swp
+#*.bak
+#*.orig
+
+# ROS2-specific
+#install_isolated/
+#build_isolated/
