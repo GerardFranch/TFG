@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "publicador_simple = robot_py.publicador_simple:main"
+            "publicador_simple = robot_py.publicador_simple:main",
+            "suscriptor_simple = robot_py.suscriptor_simple:main"
         ],
     },
 )
