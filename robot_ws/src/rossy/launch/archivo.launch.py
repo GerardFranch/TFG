@@ -21,7 +21,7 @@ def generate_launch_description():
         description='Usar tiempo simulado si es verdadero'
     )
 
-    # Nodo de publicador_estado_robot
+    # Nodo de robot_state_publisher
     nodo_publicador_estado_robot = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',

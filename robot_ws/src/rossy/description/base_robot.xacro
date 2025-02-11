@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+    <xacro:include filename="macros_inercia.xacro"/>
+
     <material name="white">
         <color rgba="1 1 1 1" />
     </material>
@@ -39,6 +41,15 @@
             </geometry>
             <material name ="white"/>
         </visual>
+        <collision>
+            <origin xyz ="0.15 0 0.075"/>
+            <geometry>
+                <box size ="0.3 0.3 0.15"/>
+            </geometry>
+        </collision>
+        <xacro:inercia_caja masa="1.0" largo="0.3" ancho="0.3" altura="0.15">
+            <origin xyz="0.15 0 0.075" rpy ="0 0 0"/>
+        </xacro:inercia_caja>
     </link>
 
     <!-- LINK RUEDA IZQUIERDA -->
@@ -58,6 +69,14 @@
             </geometry>
             <material name = "blue"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius = "0.05" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inercia_cilindro masa="0.1" largo="0.04" radio="0.05">
+            <origin xyz="0 0 0" rpy ="0 0 0"/>
+        </xacro:inercia_cilindro>
     </link>
 
     <!-- LINK RUEDA DERECHA -->
@@ -77,7 +96,42 @@
             </geometry>
             <material name = "blue"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius = "0.05" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inercia_cilindro masa="0.1" largo="0.04" radio="0.05">
+            <origin xyz="0 0 0" rpy ="0 0 0"/>
+        </xacro:inercia_cilindro>
     </link>
+
+
+    <!-- LINK RUEDA MÓVIL -->
+
+    <joint name="joint_roda_mobil" type="fixed">
+        <parent link="chasis"/>
+        <child link="roda_mobil"/>
+        <origin xyz="0.24 0 0"/>
+    </joint>
+
+    <link name="roda_mobil">
+        <visual>
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+        </collision>
+        <xacro:inercia_esfera masa="0.1" radio="0.05">
+            <origin xyz="0 0 0" rpy ="0 0 0"/>
+        </xacro:inercia_esfera>
+    </link>
+
 
 
 </robot>

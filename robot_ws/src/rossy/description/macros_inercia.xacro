@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <!-- Macro para calcular la inercia de una esfera -->
+    <xacro:macro name="inercia_esfera" params="masa radio *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${masa}" />
+            <inertia ixx="${(2/5) * masa * (radio*radio)}" ixy="0.0" ixz="0.0"
+                    iyy="${(2/5) * masa * (radio*radio)}" iyz="0.0"
+                    izz="${(2/5) * masa * (radio*radio)}" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- Macro para calcular la inercia de un cilindro -->
+    <xacro:macro name="inercia_cilindro" params="masa largo radio *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${masa}" />
+            <inertia ixx="${(1/12) * masa * (3*radio*radio + largo*largo)}" ixy="0.0" ixz="0.0"
+                    iyy="${(1/12) * masa * (3*radio*radio + largo*largo)}" iyz="0.0"
+                    izz="${(1/2) * masa * (radio*radio)}" />
+        </inertial>
+    </xacro:macro>  
+
+    <!-- Macro para calcular la inercia de una caja (paralelepípedo) -->
+    <xacro:macro name="inercia_caja" params="masa largo ancho altura *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${masa}" />
+            <inertia ixx="${(1/12) * masa * (ancho*ancho+altura*altura)}" ixy="0.0" ixz="0.0"
+                    iyy="${(1/12) * masa * (largo*largo+altura*altura)}" iyz="0.0"
+                    izz="${(1/12) * masa * (largo*largo+ancho*ancho)}" />
+        </inertial>
+    </xacro:macro>
+</robot>
