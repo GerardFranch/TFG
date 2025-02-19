@@ -87,5 +87,6 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/gerard/TFG/robot_ws/src/rossy"
 }

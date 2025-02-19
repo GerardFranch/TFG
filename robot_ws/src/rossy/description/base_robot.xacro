@@ -21,14 +21,14 @@
 
     <!-- LINK BASE -->
 
-    <link name ="link_base">
+    <link name ="base_link">
     
     </link>
 
     <!-- LINK DEL CHASIS -->
 
     <joint name = "joint_chasis" type ="fixed">
-        <parent link ="link_base"/>
+        <parent link ="base_link"/>
         <child link ="chasis"/>
         <origin xyz="-0.1 0 0"/>
     </joint>
@@ -52,10 +52,14 @@
         </xacro:inercia_caja>
     </link>
 
+    <gazebo reference="chasis">
+        <material>Gazebo/White</material>
+    </gazebo>
+
     <!-- LINK RUEDA IZQUIERDA -->
 
     <joint name = "joint_roda_esquerra" type = "continuous">
-        <parent link="link_base"/>
+        <parent link="base_link"/>
         <child link="roda_esquerra"/>
         <origin xyz="0 0.175 0" rpy ="-${pi/2} 0 0"/>
         <axis xyz="0 0 1"/>
@@ -79,10 +83,15 @@
         </xacro:inercia_cilindro>
     </link>
 
+    <gazebo reference="roda_esquerra">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
     <!-- LINK RUEDA DERECHA -->
 
     <joint name = "joint_roda_dreta" type = "continuous">
-        <parent link="link_base"/>
+        <parent link="base_link"/>
         <child link="roda_dreta"/>
         <origin xyz="0 -0.175 0" rpy ="${pi/2} 0 0"/>
         <axis xyz="0 0 -1"/>
@@ -105,6 +114,10 @@
             <origin xyz="0 0 0" rpy ="0 0 0"/>
         </xacro:inercia_cilindro>
     </link>
+
+    <gazebo reference="roda_dreta">
+        <material>Gazebo/Blue</material>
+    </gazebo>
 
 
     <!-- LINK RUEDA MÓVIL -->
@@ -132,6 +145,7 @@
         </xacro:inercia_esfera>
     </link>
 
-
-
+    <gazebo reference="roda_mobil">
+        <material>Gazebo/Black</material>
+    </gazebo>
 </robot>
