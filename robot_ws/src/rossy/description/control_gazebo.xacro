@@ -8,7 +8,7 @@
             <left_joint>joint_roda_esquerra</left_joint>
             <right_joint>joint_roda_dreta</right_joint>
             <wheel_separation>0.35</wheel_separation>
-            <wheel_radius>0.1</wheel_radius>
+            <wheel_radius>0.05</wheel_radius>
 
 
             <!-- Limits -->

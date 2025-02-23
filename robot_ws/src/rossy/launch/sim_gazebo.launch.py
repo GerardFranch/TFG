@@ -17,11 +17,19 @@ def generate_launch_description():
                     get_package_share_directory('rossy'),'launch','archivo.launch.py'
                 )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
+    
+    mundo = LaunchConfiguration('mundo')
+
+    mundo_argumento = DeclareLaunchArgument(
+        'mundo',
+        default_value='empty.sdf',
+        description='Mundo a cargar'
+        )
 
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
-                    launch_arguments={'gz_args': 'empty.sdf', 'on_exit_shutdown': 'true'}.items()  
+                    launch_arguments={'gz_args': ['-r -v4 ', mundo], 'on_exit_shutdown': 'true'}.items()  
              )
 
     generar_robot = Node(package='ros_gz_sim', executable='create',
@@ -42,6 +50,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        mundo_argumento,
         archivo_launch,
         gazebo,
         generar_robot,
