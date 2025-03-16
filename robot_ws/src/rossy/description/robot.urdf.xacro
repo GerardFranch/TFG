@@ -4,6 +4,7 @@
     
     <xacro:include filename = "base_robot.xacro"  />
     <xacro:include filename = "control_gazebo.xacro"  />
+    <xacro:include filename = "lidar.xacro"  />
 
 
 </robot>

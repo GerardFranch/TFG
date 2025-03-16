@@ -30,25 +30,25 @@
     <joint name = "joint_chasis" type ="fixed">
         <parent link ="base_link"/>
         <child link ="chasis"/>
-        <origin xyz="-0.1 0 0"/>
+        <origin xyz="0.1 0 0"/>
     </joint>
 
     <link name ="chasis">
         <visual>
-            <origin xyz ="0.15 0 0.075"/>
+            <origin xyz ="-0.15 0 0.075"/>
             <geometry>
                 <box size ="0.3 0.3 0.15"/>
             </geometry>
             <material name ="white"/>
         </visual>
         <collision>
-            <origin xyz ="0.15 0 0.075"/>
+            <origin xyz ="-0.15 0 0.075"/>
             <geometry>
                 <box size ="0.3 0.3 0.15"/>
             </geometry>
         </collision>
         <xacro:inercia_caja masa="1.0" largo="0.3" ancho="0.3" altura="0.15">
-            <origin xyz="0.15 0 0.075" rpy ="0 0 0"/>
+            <origin xyz="-0.15 0 0.075" rpy ="0 0 0"/>
         </xacro:inercia_caja>
     </link>
 
@@ -125,7 +125,7 @@
     <joint name="joint_roda_mobil" type="fixed">
         <parent link="chasis"/>
         <child link="roda_mobil"/>
-        <origin xyz="0.24 0 0"/>
+        <origin xyz="-0.24 0 0"/>
     </joint>
 
     <link name="roda_mobil">

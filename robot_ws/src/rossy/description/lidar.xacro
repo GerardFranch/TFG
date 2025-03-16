@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+ <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+ 
+    <joint name="laser_joint" type="fixed">
+        <parent link="chasis"/>
+        <child link="laser_frame"/>
+        <origin xyz="-0.1 0 0.175" rpy="0 0 0"/>
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <geometry>
+                <cylinder radius = "0.05" length="0.04"/>
+            </geometry>
+            <material name = "black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius = "0.05" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inercia_cilindro masa="0.1" largo="0.04" radio="0.05">
+            <origin xyz="0 0 0" rpy ="0 0 0"/>
+        </xacro:inercia_cilindro>
+    </link>
+ 
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Black</material>
+
+        <sensor type="gpu_lidar" name="laser">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>8</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.1</min>
+                    <max>12.0</max>
+                </range>
+            </ray>
+            <topic>scan</topic>
+            <gz_frame_id>laser_frame</gz_frame_id>
+        </sensor>
+    </gazebo>
+
+ 
+ </robot>

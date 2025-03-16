@@ -18,11 +18,17 @@ def generate_launch_description():
                 )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
     
+    mundo_vacio = os.path.join(
+        get_package_share_directory('rossy'),
+        'worlds',
+        'empty.sdf'
+        )
+    
     mundo = LaunchConfiguration('mundo')
 
     mundo_argumento = DeclareLaunchArgument(
         'mundo',
-        default_value='empty.sdf',
+        default_value=mundo_vacio,
         description='Mundo a cargar'
         )
 
