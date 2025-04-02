@@ -44,7 +44,24 @@ def generate_launch_description():
                                    '-z', '0.1'],
                         output='screen')
     
+    diff_drive_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "diff_drive_controller"
+        ],
+    )
+
+    joint_broad_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "joint_state_broadcaster"
+        ],
+    )
+    
     parametros_bridge = os.path.join(get_package_share_directory('rossy'),'configuracions','gz_bridge.yaml')
+    
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
@@ -60,5 +77,7 @@ def generate_launch_description():
         archivo_launch,
         gazebo,
         generar_robot,
+        diff_drive_spawner,
+        joint_broad_spawner,
         ros_gz_bridge,
     ])
