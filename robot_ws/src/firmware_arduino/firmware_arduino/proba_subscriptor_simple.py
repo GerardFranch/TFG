@@ -4,7 +4,6 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import serial
-from serial.serialutil import SerialException  
 
 class SuscriptorSimpleSerial(Node):
 
@@ -19,14 +18,9 @@ class SuscriptorSimpleSerial(Node):
         self.port = self.get_parameter("port").value
         self.baudrate = self.get_parameter("baudrate").value
         
-        # Intenta abrir el puerto serial, pero maneja el error si no está disponible
-        try:
-            self.arduino = serial.Serial(port=self.port, baudrate=self.baudrate, timeout=0.1)
-            self.get_logger().info(f'Puerto serial {self.port} abierto correctamente')
-        except SerialException:
-            self.get_logger().warn(f'No se puede abrir el puerto serial {self.port}')
-            self.arduino = None
-        
+        self.arduino = serial.Serial(port=self.port, baudrate=self.baudrate, timeout=0.1)
+        self.get_logger().info(f'Puerto serial {self.port} abierto correctamente')
+       
         # Crea la suscripción
         self.subscription = self.create_subscription(
             String,
@@ -37,7 +31,7 @@ class SuscriptorSimpleSerial(Node):
 
     def listener_callback(self, msg):
         self.get_logger().info('He recibido: "%s"' % msg.data)
-        #self.arduino.write(msg.data.encode("utf-8"))
+        self.arduino.write(msg.data.encode("utf-8"))
 
 
 def main(args=None):
