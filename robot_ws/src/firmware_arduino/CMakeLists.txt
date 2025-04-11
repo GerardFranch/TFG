@@ -17,7 +17,8 @@ install(
   PROGRAMS
     ${PROJECT_NAME}/proba_publicador_simple.py
     ${PROJECT_NAME}/proba_subscriptor_simple.py
-    ${PROJECT_NAME}/menu_publicador.py
+    ${PROJECT_NAME}/menu_publicador_simple.py
+    ${PROJECT_NAME}/proba_nodo_driver.py
     DESTINATION lib/${PROJECT_NAME}
 
 )
