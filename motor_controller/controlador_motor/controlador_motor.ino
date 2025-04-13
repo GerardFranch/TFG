@@ -1,12 +1,12 @@
 #include <PID_v1.h>
 
 // Definición de pines para el driver L298N
-#define enA 9          // Pin de habilitación para el motor derecho
-#define in1 12         // Pin de control 1 para el motor derecho
-#define in2 13         // Pin de control 2 para el motor derecho
-#define in3 7          // Pin de control 1 para el motor izquierdo
-#define in4 8          // Pin de control 2 para el motor izquierdo
-#define enB 11         // Pin de habilitación para el motor izquierdo
+#define enA 11          // Pin de habilitación para el motor izquierdo
+#define in1 13         // Pin de control 1 para el motor izquierdo
+#define in2 12         // Pin de control 2 para el motor izquierdo
+#define in3 7          // Pin de control 1 para el motor derecho
+#define in4 8          // Pin de control 2 para el motor derecho
+#define enB 9         // Pin de habilitación para el motor derecho
 
 // Definición de pines para los encoders
 #define left_enc_A 2   // Canal A del encoder izquierdo (interrupción)
@@ -77,8 +77,8 @@ void setup() {
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
   
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, HIGH);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
 
   // Activación de los controladores PID
   rightMotor.SetMode(AUTOMATIC);
@@ -112,14 +112,14 @@ void loop() {
       if (is_right_wheel_cmd && !is_right_wheel_forward)
       {
         // Invertir estado actual de los pines para cambiar dirección
-        digitalWrite(in1, HIGH - digitalRead(in1));
-        digitalWrite(in2, HIGH - digitalRead(in2));
+        digitalWrite(in3, HIGH);
+        digitalWrite(in4, LOW);
         is_right_wheel_forward = true;
       }
       else if (is_left_wheel_cmd && !is_left_wheel_forward)
       {
-        digitalWrite(in3, HIGH - digitalRead(in3));
-        digitalWrite(in4, HIGH - digitalRead(in4));
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, HIGH);
         is_left_wheel_forward = true;
       }
     }
@@ -127,14 +127,14 @@ void loop() {
     {
       if (is_right_wheel_cmd && is_right_wheel_forward)
       {
-        digitalWrite(in1, HIGH - digitalRead(in1));
-        digitalWrite(in2, HIGH - digitalRead(in2));
+        digitalWrite(in3, LOW);
+        digitalWrite(in4, HIGH);
         is_right_wheel_forward = false;
       }
       else if (is_left_wheel_cmd && is_left_wheel_forward)
       {
-        digitalWrite(in3, HIGH - digitalRead(in3));
-        digitalWrite(in4, HIGH - digitalRead(in4));
+        digitalWrite(in1, HIGH);
+        digitalWrite(in2, LOW);
         is_left_wheel_forward = false;
       }
     }
@@ -194,8 +194,8 @@ void loop() {
     }
 
     // Aplicar señales PWM a los motores
-    analogWrite(enA, right_wheel_cmd);
-    analogWrite(enB, left_wheel_cmd);
+    analogWrite(enA, left_wheel_cmd);   // Motor izquierdo usa enA
+    analogWrite(enB, right_wheel_cmd);  // Motor derecho usa enB
     
     // Enviar datos de encoder por serial
     String encoder_read = "r" + right_encoder_sign + String(right_wheel_vel) + ",l" + left_encoder_sign + String(left_wheel_vel) + ",";
