@@ -8,6 +8,10 @@ unsigned int left_encoder_counter = 0; //número de pulsos
 String left_encoder_sign = "p";  //direcció moviment    
 double left_wheel_vel = 0.0;   //rad/s
 
+const double dt = 0.1; // tiempo entre lecturas en segundos
+const int PPR = 824;
+
+
 void setup() {
 
   pinMode(enA, OUTPUT);
@@ -17,18 +21,21 @@ void setup() {
 
   attachInterrupt(digitalPinToInterrupt(left_enc_A),leftEncoderCallback,RISING);
   
-  digitalWrite(in1,HIGH);
-  digitalWrite(in2,LOW );
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,HIGH);
 
   Serial.begin(115200);
 
 }
 
 void loop() {
-  left_wheel_vel = 10*left_encoder_counter + (60.0/858.0)*0.10472; //11senayals per volta x 78 ratio reduccio = 858 ---- 1rpm = 0.10472 rad/s
-  String encoder_read = left_encoder_sign + String(left_wheel_vel);
+  
+  double left_wheel_rev_s = left_encoder_counter / (PPR * dt);  //  1rpm = 0.10472 rad/s
+  String encoder_read = left_encoder_sign + String(left_wheel_rev_s, 3);
+
+  
   Serial.println(encoder_read);
-  analogWrite(enA, 100);
+  analogWrite(enA, 210);
 
   left_encoder_counter = 0;
   delay(100);
