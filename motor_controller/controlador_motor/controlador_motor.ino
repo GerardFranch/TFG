@@ -42,14 +42,14 @@ double right_wheel_cmd = 0.0;           // Señal PWM para el motor derecho (0-2
 double left_wheel_cmd = 0.0;            // Señal PWM para el motor izquierdo (0-255)
 
 // Parámetros del controlador PID para el motor derecho
-double Kp_r = 11.5;                     // Ganancia proporcional
-double Ki_r = 7.5;                      // Ganancia integral
-double Kd_r = 0.1;                      // Ganancia derivativa
+double Kp_r = 21;                     // Ganancia proporcional
+double Ki_r = 112;                      // Ganancia integral
+double Kd_r = 0.5;                      // Ganancia derivativa
 
 // Parámetros del controlador PID para el motor izquierdo
-double Kp_l = 12.8;                     // Ganancia proporcional
-double Ki_l = 8.3;                      // Ganancia integral
-double Kd_l = 0.1;                      // Ganancia derivativa
+double Kp_l = 21;                     // Ganancia proporcional
+double Ki_l = 123;                      // Ganancia integral
+double Kd_l = 0.5;                      // Ganancia derivativa
 
 // Inicialización de los controladores PID
 PID rightMotor(&right_wheel_vel, &right_wheel_cmd, &right_wheel_cmd_vel, Kp_r, Ki_r, Kd_r, DIRECT);
