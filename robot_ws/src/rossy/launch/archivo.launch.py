@@ -12,7 +12,7 @@ def generate_launch_description():
     archivo_xacro = os.path.join(ruta_paquete, 'description', 'robot.urdf.xacro')
     
     # Procesar el archivo .xacro para generar el URDF
-    descripcion_robot = xacro.process_file(archivo_xacro).toxml()
+    robot_description = xacro.process_file(archivo_xacro).toxml()
 
     # Declarar el argumento 'usar_tiempo_simulado'
     usar_tiempo_sim = DeclareLaunchArgument(
@@ -27,7 +27,7 @@ def generate_launch_description():
         executable='robot_state_publisher',
         output='screen',
         parameters=[{
-            'robot_description': descripcion_robot,
+            'robot_description': robot_description,
             'use_sim_time': LaunchConfiguration('use_sim_time')
         }]
     )
