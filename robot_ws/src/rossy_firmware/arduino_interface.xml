@@ -1,0 +1,9 @@
+<library path="rossy_firmware">
+	<class name="rossy_firmware/ArduinoSerialInterface"
+		    type="rossy_firmware::ArduinoSerialInterface"
+		    base_class_type="hardware_interface::SystemInterface">
+		<description>
+		    Rossy hardware interface
+		</description>	
+	</class>
+</library>

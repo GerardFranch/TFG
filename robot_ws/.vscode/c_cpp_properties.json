@@ -7,6 +7,7 @@
       },
       "includePath": [
         "/opt/ros/jazzy/include/**",
+        "/home/gerard/TFG/robot_ws/src/rossy_firmware/include/**",
         "/usr/include/**"
       ],
       "name": "ROS",
