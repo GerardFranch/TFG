@@ -15,7 +15,7 @@ def generate_launch_description():
     archivo_launch = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('rossy'),'launch','archivo.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true'}.items()
+                )]), launch_arguments={'use_sim_time': 'true','use_ros2_control':'false'}.items()
     )
     
     mundo_vacio = os.path.join(
