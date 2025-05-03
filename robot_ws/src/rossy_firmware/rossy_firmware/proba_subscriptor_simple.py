@@ -11,7 +11,7 @@ class SuscriptorSimpleSerial(Node):
         super().__init__('suscriptor_simple_serial')
 
         # Declara los parámetros
-        self.declare_parameter("port", "/dev/ttyUSB0")
+        self.declare_parameter("port", "/dev/arduino")
         self.declare_parameter("baudrate", 115200)
         
         # Obtiene los valores de los parámetros

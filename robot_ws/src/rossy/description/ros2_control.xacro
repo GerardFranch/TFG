@@ -5,9 +5,9 @@
     <ros2_control name="RobotReal" type="system">
         <hardware>
             <plugin>rossy_firmware/ArduinoSerialInterface</plugin>
-            <param name="port">/dev/ttyUSB0</param>
+            <param name="port">/dev/arduino</param>
         </hardware>
-        <joint name="joint_roda_esquerra">
+        <joint name="joint_roda_dreta">
             <command_interface name="velocity">
                 <param name="min">-10</param>
                 <param name="max">10</param>
@@ -15,7 +15,7 @@
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
-        <joint name="joint_roda_dreta">
+        <joint name="joint_roda_esquerra">
             <command_interface name="velocity">
                 <param name="min">-10</param>
                 <param name="max">10</param>

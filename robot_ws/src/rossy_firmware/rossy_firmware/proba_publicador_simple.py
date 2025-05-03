@@ -13,7 +13,7 @@ class PublicadorSimpleSerial(Node):
         self.publisher_ = self.create_publisher(String, 'arduino_topic', 10)
         timer_period = 0.5  # seconds
         
-        self.declare_parameter("port","/dev/ttyUSB0")
+        self.declare_parameter("port","/dev/arduino")
         self.declare_parameter("baudrate",115200)
 
         self.port = self.get_parameter("port").value
