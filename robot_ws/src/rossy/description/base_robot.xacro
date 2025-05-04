@@ -3,6 +3,21 @@
 
     <xacro:include filename="macros_inercia.xacro"/>
 
+    <xacro:property name="chassis_length" value="0.250"/>
+    <xacro:property name="chassis_width" value="0.200"/>
+    <xacro:property name="chassis_height" value="0.070"/>
+    <xacro:property name="chassis_mass" value="1.0"/>
+    <xacro:property name="wheel_radius" value="0.033"/>
+    <xacro:property name="wheel_thickness" value="0.026"/>
+    <xacro:property name="wheel_mass" value="0.05"/>
+    <xacro:property name="wheel_offset_x" value="0.0755"/>
+    <xacro:property name="wheel_offset_y" value="0.120"/>
+    <xacro:property name="wheel_offset_z" value="0.004"/>
+    <xacro:property name="caster_wheel_radius" value="0.025"/>
+    <xacro:property name="caster_wheel_mass" value="0.01"/>
+    <xacro:property name="caster_wheel_offset_x" value="0.210"/>
+    <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
+
     <material name="white">
         <color rgba="1 1 1 1" />
     </material>
@@ -30,30 +45,30 @@
     <joint name = "joint_chasis" type ="fixed">
         <parent link ="base_link"/>
         <child link ="chasis"/>
-        <origin xyz="0.1 0 0"/>
+        <origin xyz="${wheel_offset_x} 0 ${wheel_offset_z}"/>
     </joint>
 
     <link name ="chasis">
         <visual>
-            <origin xyz ="-0.15 0 0.075"/>
+            <origin xyz ="${-chassis_length/2} 0 ${chassis_height/2}"/>
             <geometry>
-                <box size ="0.3 0.3 0.15"/>
+                <box size ="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
-            <material name ="white"/>
+            <material name ="black"/>
         </visual>
         <collision>
-            <origin xyz ="-0.15 0 0.075"/>
+            <origin xyz ="${-chassis_length/2} 0 ${chassis_height/2}"/>
             <geometry>
-                <box size ="0.3 0.3 0.15"/>
+                <box size ="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
         </collision>
-        <xacro:inercia_caja masa="1.0" largo="0.3" ancho="0.3" altura="0.15">
-            <origin xyz="-0.15 0 0.075" rpy ="0 0 0"/>
+        <xacro:inercia_caja masa="1.0" largo="${chassis_length}" ancho="${chassis_width}" altura="${chassis_height}">
+            <origin xyz="${-chassis_length/2} 0 ${chassis_height/2}" rpy ="0 0 0"/>
         </xacro:inercia_caja>
     </link>
 
     <gazebo reference="chasis">
-        <material>Gazebo/White</material>
+        <material>Gazebo/Black</material>
     </gazebo>
 
     <!-- LINK RUEDA IZQUIERDA -->
@@ -61,7 +76,7 @@
     <joint name = "joint_roda_esquerra" type = "continuous">
         <parent link="base_link"/>
         <child link="roda_esquerra"/>
-        <origin xyz="0 0.175 0" rpy ="-${pi/2} 0 0"/>
+        <origin xyz="0 ${wheel_offset_y} 0" rpy ="-${pi/2} 0 0"/>
         <axis xyz="0 0 1"/>
     
     </joint>
@@ -69,16 +84,16 @@
     <link name = "roda_esquerra">
         <visual>
             <geometry>
-                <cylinder radius = "0.05" length="0.04"/>
+                <cylinder radius = "${wheel_radius}" length="${wheel_thickness}"/>
             </geometry>
             <material name = "blue"/>
         </visual>
         <collision>
             <geometry>
-                <cylinder radius = "0.05" length="0.04"/>
+                <cylinder radius = "${wheel_radius}" length="${wheel_thickness}"/>
             </geometry>
         </collision>
-        <xacro:inercia_cilindro masa="0.1" largo="0.04" radio="0.05">
+        <xacro:inercia_cilindro masa="${wheel_mass}" largo="${wheel_thickness}" radio="${wheel_radius}">
             <origin xyz="0 0 0" rpy ="0 0 0"/>
         </xacro:inercia_cilindro>
     </link>
@@ -93,7 +108,7 @@
     <joint name = "joint_roda_dreta" type = "continuous">
         <parent link="base_link"/>
         <child link="roda_dreta"/>
-        <origin xyz="0 -0.175 0" rpy ="${pi/2} 0 0"/>
+        <origin xyz="0 ${-wheel_offset_y} 0" rpy ="${pi/2} 0 0"/>
         <axis xyz="0 0 -1"/>
     
     </joint>
@@ -101,16 +116,16 @@
     <link name = "roda_dreta">
         <visual>
             <geometry>
-                <cylinder radius = "0.05" length="0.04"/>
+                <cylinder radius = "${wheel_radius}" length="${wheel_thickness}"/>
             </geometry>
             <material name = "blue"/>
         </visual>
         <collision>
             <geometry>
-                <cylinder radius = "0.05" length="0.04"/>
+                <cylinder radius = "${wheel_radius}" length="${wheel_thickness}"/>
             </geometry>
         </collision>
-        <xacro:inercia_cilindro masa="0.1" largo="0.04" radio="0.05">
+        <xacro:inercia_cilindro masa="${wheel_mass}" largo="${wheel_thickness}" radio="${wheel_radius}">
             <origin xyz="0 0 0" rpy ="0 0 0"/>
         </xacro:inercia_cilindro>
     </link>
@@ -125,22 +140,22 @@
     <joint name="joint_roda_mobil" type="fixed">
         <parent link="chasis"/>
         <child link="roda_mobil"/>
-        <origin xyz="-0.24 0 0"/>
+        <origin xyz="${-caster_wheel_offset_x} 0 ${caster_wheel_offset_z}"/>
     </joint>
 
     <link name="roda_mobil">
         <visual>
             <geometry>
-                <sphere radius="0.05"/>
+                <sphere radius="${caster_wheel_radius}"/>
             </geometry>
             <material name="black"/>
         </visual>
         <collision>
             <geometry>
-                <sphere radius="0.05"/>
+                <sphere radius="${caster_wheel_radius}"/>
             </geometry>
         </collision>
-        <xacro:inercia_esfera masa="0.1" radio="0.05">
+        <xacro:inercia_esfera masa="${caster_wheel_mass}" radio="${caster_wheel_radius}">
             <origin xyz="0 0 0" rpy ="0 0 0"/>
         </xacro:inercia_esfera>
     </link>

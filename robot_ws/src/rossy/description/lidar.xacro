@@ -4,28 +4,28 @@
     <joint name="laser_joint" type="fixed">
         <parent link="chasis"/>
         <child link="laser_frame"/>
-        <origin xyz="-0.1 0 0.175" rpy="0 0 0"/>
+        <origin xyz="-0.106 0 0.090" rpy="0 0 0"/>
     </joint>
 
     <link name="laser_frame">
         <visual>
             <geometry>
-                <cylinder radius = "0.05" length="0.04"/>
+                <cylinder radius = "0.035" length="0.03"/>
             </geometry>
             <material name = "black"/>
         </visual>
         <collision>
             <geometry>
-                <cylinder radius = "0.05" length="0.04"/>
+                <cylinder radius = "0.035" length="0.03"/>
             </geometry>
         </collision>
-        <xacro:inercia_cilindro masa="0.1" largo="0.04" radio="0.05">
+        <xacro:inercia_cilindro masa="0.1" largo="0.03" radio="0.035">
             <origin xyz="0 0 0" rpy ="0 0 0"/>
         </xacro:inercia_cilindro>
     </link>
  
     <gazebo reference="laser_frame">
-        <material>Gazebo/Black</material>
+        <material>Gazebo/DarkGrey</material>
 
         <sensor type="gpu_lidar" name="laser">
             <pose> 0 0 0 0 0 0 </pose>
