@@ -17,6 +17,10 @@
 // Variables para medición de velocidad y estado de los encoders
 unsigned int left_encoder_counter = 0;  // Contador de pulsos del encoder izquierdo
 unsigned int right_encoder_counter = 0; // Contador de pulsos del encoder derecho
+
+long total_left_counter = 0;
+long total_right_counter = 0;
+
 String left_encoder_sign = "p";         // Dirección del movimiento izquierdo (p=positivo, n=negativo)
 String right_encoder_sign = "p";        // Dirección del movimiento derecho (p=positivo, n=negativo)
 double left_wheel_vel = 0.0;            // Velocidad rueda izquierda en rad/s
@@ -198,7 +202,8 @@ void loop() {
     analogWrite(enB, right_wheel_cmd);  // Motor derecho usa enB
     
     // Enviar datos de encoder por serial
-    String encoder_read = "r" + right_encoder_sign + String(right_wheel_vel) + ",l" + left_encoder_sign + String(left_wheel_vel) + ",";
+    //String encoder_read = "r" + right_encoder_sign + String(right_wheel_vel) + ",l" + left_encoder_sign + String(left_wheel_vel) + ",";
+    String encoder_read = "r" + String(total_right_counter) + ",l" + String(total_left_counter) + ",";
     Serial.println(encoder_read);
     
     // Reiniciar contadores y actualizar tiempo
@@ -215,9 +220,12 @@ void leftEncoderCallback() {
   // Determinar dirección basada en el estado del canal B
   if(digitalRead(left_enc_B) == HIGH) {
     left_encoder_sign = "p";  // Movimiento positivo
+    total_left_counter++;
+
   }
   else {
     left_encoder_sign = "n";  // Movimiento negativo
+    total_left_counter--;
   }
 }
 
@@ -229,8 +237,10 @@ void rightEncoderCallback() {
   // Nota: La lógica está invertida respecto al encoder izquierdo
   if(digitalRead(right_enc_B) == HIGH) {
     right_encoder_sign = "n";  // Movimiento negativo
+    total_right_counter--;
   }
   else {
     right_encoder_sign = "p";  // Movimiento positivo
+    total_right_counter++;
   }
 }
