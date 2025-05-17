@@ -49,8 +49,6 @@ CallbackReturn ArduinoSerialInterface::on_init(const hardware_interface::Hardwar
     position_states_.reserve(info_.joints.size());
     velocity_states_.reserve(info_.joints.size());
 
-    last_run_ = rclcpp::Clock().now();
-
     return CallbackReturn::SUCCESS;
 }
 
@@ -105,6 +103,10 @@ CallbackReturn ArduinoSerialInterface::on_activate(const rclcpp_lifecycle::State
     velocity_commands_ = {0.0, 0.0};
     position_states_ = {0.0, 0.0};
     velocity_states_ = {0.0, 0.0};
+    r_wheel_counts_ = 0;
+    l_wheel_counts_ = 0;
+    last_right_counts_ = 0; // Inicializar contador previo de la rueda derecha
+    last_left_counts_ = 0;  // Inicializar contador previo de la rueda izquierda
 
     try
     {
@@ -142,42 +144,58 @@ CallbackReturn ArduinoSerialInterface::on_deactivate(const rclcpp_lifecycle::Sta
     return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::return_type ArduinoSerialInterface::read(const rclcpp::Time & time, const rclcpp::Duration & period)
+hardware_interface::return_type ArduinoSerialInterface::read(const rclcpp::Time & /* time */, const rclcpp::Duration & /* period */)
 {
     if (arduino_.IsDataAvailable())
     {
-        auto dt = (rclcpp::Clock().now() - last_run_).seconds();
+        // Leer el mensaje del Arduino
         std::string message;
         arduino_.ReadLine(message);
 
+        // Dividir el mensaje en partes
         std::stringstream ss(message);
         std::string res;
-        int multiplier = 1;
 
-        while(std::getline(ss, res, ','))
+        while (std::getline(ss, res, ','))
         {
-            multiplier = res[1] == 'p' ? 1 : -1;
+            if (res[0] == 'r') // Rueda derecha
+            {
+                // Leer contador acumulado
+                int32_t counts = std::stoi(res.substr(1));
+                int32_t diff_counts = counts - r_wheel_counts_; // Diferencia de pulsos
+                r_wheel_counts_ = counts; // Actualizar el contador acumulado
 
-            if(res[0] == 'r')
-            {
-                velocity_states_[0] = multiplier * std::stod(res.substr(2, res.size()));
-                
-                // Update position of the right wheel
-                position_states_[0] += velocity_states_[0] * dt;
+                // Calcular posición y velocidad
+                position_states_[0] += diff_counts * RADS_PER_COUNT;
+
+                // Calcular el tiempo transcurrido correctamente
+                auto new_time = std::chrono::system_clock::now();
+                std::chrono::duration<double> diff = new_time - last_time_;
+                double delta_seconds = diff.count();
+                velocity_states_[0] = (diff_counts * RADS_PER_COUNT) / delta_seconds;
             }
-            else if(res[0] == 'l')
+            else if (res[0] == 'l') // Rueda izquierda
             {
-                velocity_states_[1] = multiplier * std::stod(res.substr(2, res.size()));
-                
-                // Update position of the left wheel
-                position_states_[1] += velocity_states_[1] * dt;
+                // Leer contador acumulado
+                int32_t counts = std::stoi(res.substr(1));
+                int32_t diff_counts = counts - l_wheel_counts_; // Diferencia de pulsos
+                l_wheel_counts_ = counts; // Actualizar el contador acumulado
+
+                // Calcular posición y velocidad
+                position_states_[1] += diff_counts * RADS_PER_COUNT;
+
+                // Calcular el tiempo transcurrido correctamente
+                auto new_time = std::chrono::system_clock::now();
+                std::chrono::duration<double> diff = new_time - last_time_;
+                double delta_seconds = diff.count();
+                velocity_states_[1] = (diff_counts * RADS_PER_COUNT) / delta_seconds;
             }
         }
+
+        // Actualizar el tiempo de la última lectura
+        last_time_ = std::chrono::system_clock::now();
     }
 
-    // Update the time of the last execution
-    last_run_ = rclcpp::Clock().now();
-    
     return hardware_interface::return_type::OK;
 }
 
