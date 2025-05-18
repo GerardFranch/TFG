@@ -15,5 +15,5 @@ diff_drive_controller:
     base_frame_id: "base_link"
     left_wheel_names: ['joint_roda_esquerra']
     right_wheel_names: ['joint_roda_dreta']
-    wheel_separation: 0.35
-    wheel_radius: 0.05
+    wheel_separation: 0.24
+    wheel_radius: 0.033
