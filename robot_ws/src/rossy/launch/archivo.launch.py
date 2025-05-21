@@ -34,7 +34,7 @@ def generate_launch_description():
     
     # Pasamos argumento al xacro para la logica de ros2_control o gazebo_control
     robot_description_conf = ParameterValue(
-        Command(['xacro ',archivo_xacro,' use_ros2_control:=',use_ros2_control]),
+        Command(['xacro ',archivo_xacro,' use_ros2_control:=',use_ros2_control, ' sim_mode:=',use_sim_time]),
         value_type=str
     )
     # Nodo de robot_state_publisher
